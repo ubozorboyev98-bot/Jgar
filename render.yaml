@@ -1,0 +1,14 @@
+services:
+  - type: worker
+    name: jgar-telegram-bot
+    runtime: python
+    rootDir: sonnet_final
+    buildCommand: pip install -r requirements.txt
+    startCommand: python sonnet_final.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_IDS
+        value: "8764954646,6391842049"
+      - key: LOG_CHAT_ID
+        value: "-1003521804500"

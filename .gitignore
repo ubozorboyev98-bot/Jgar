@@ -1,0 +1,14 @@
+.env
+**/__pycache__/
+*.py[cod]
+sonnet_final/sonnet.lock
+sonnet_final/output/
+sonnet_final/allowed_users.json
+sonnet_final/users.json
+sonnet_final/emoji_pack.json
+sonnet_final/price_*.json
+sonnet_final/credits.json
+sonnet_final/stats.json
+sonnet_final/refund_requests.json
+sonnet_final/referrals.json
+sonnet_final/settings.json
