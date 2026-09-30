@@ -1,10 +1,12 @@
 services:
-  - type: worker
+  - type: web
     name: jgar-telegram-bot
     runtime: python
+    plan: free
     rootDir: sonnet_final
     buildCommand: pip install -r requirements.txt
     startCommand: python sonnet_final.py
+    healthCheckPath: /health
     envVars:
       - key: BOT_TOKEN
         sync: false

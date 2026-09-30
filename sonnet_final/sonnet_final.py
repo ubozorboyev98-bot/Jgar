@@ -47,6 +47,7 @@ from aiogram.types import (
     PreCheckoutQuery,
     ReplyKeyboardMarkup,
 )
+from aiohttp import web
 from dotenv import load_dotenv
 
 import logo_engine
@@ -1746,11 +1747,33 @@ async def errors_handler(event) -> bool:
     return True
 
 
+async def _health(_request):
+    return web.Response(text="ok")
+
+
+def _create_health_app():
+    app = web.Application()
+    app.router.add_get("/", _health)
+    app.router.add_get("/health", _health)
+    return app
+
+
 async def main():
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_router(router)
-    await dp.start_polling(bot)
+    runner = web.AppRunner(_create_health_app())
+    await runner.setup()
+    site = web.TCPSite(
+        runner,
+        "0.0.0.0",
+        int(os.environ.get("PORT", "10000")),
+    )
+    await site.start()
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await runner.cleanup()
 
 
 _LOCK_PATH = os.path.join(os.path.dirname(__file__), "sonnet.lock")
